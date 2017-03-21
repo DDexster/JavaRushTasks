@@ -37,21 +37,15 @@ public class Solution {
         ArrayList<LineItem> lineItems = new ArrayList<>();
 
         for (int i = 0; i < file1.size(); i++) {
-            LineItem item = doCompare(file1.get(i), file2.get(i));
+            LineItem item = doCompare(file1, file2);
             lineItems.add(item);
         }
 
         return lineItems;
     }
 
-    private static LineItem doCompare(String s, String s1) {
-        if (s.equals(s1)) {
-            return new LineItem(Type.SAME, s);
-        } else if (s1.equals(Type.ADDED.toString())) {
-            return new LineItem(Type.ADDED, s);
-        } else if (s1.equals(Type.REMOVED.toString())) {
-            return new LineItem(Type.REMOVED, s);
-        }
+    private static LineItem doCompare(ArrayList<String> item1, ArrayList<String> item2) {
+
         return null;
     }
 
