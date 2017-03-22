@@ -23,11 +23,6 @@ public class Solution {
         ArrayList<String> file1 = getStrings(filename1);
         ArrayList<String> file2 = getStrings(filename2);
 
-        printList(file1);
-        System.out.println();
-        printList(file2);
-        System.out.println();
-
         lines = makeSomeNoize(file1, file2);
 
         printComplexList(lines);
@@ -35,19 +30,28 @@ public class Solution {
 
     private static List<LineItem> makeSomeNoize(ArrayList<String> file1, ArrayList<String> file2) {
         ArrayList<LineItem> lineItems = new ArrayList<>();
-
         for (int i = 0; i < file1.size(); i++) {
-            LineItem item = doCompare(file1, file2);
-            lineItems.add(item);
+            if (!file2.isEmpty() && file1.get(i).equals(file2.get(0))) {
+                lineItems.add(new LineItem(Type.SAME, file1.get(i)));
+                file2.remove(0);
+            } else if (file2.size() > 1 && file1.get(i).equals(file2.get(1))) {
+                lineItems.add(new LineItem(Type.ADDED, file2.get(0)));
+                file2.remove(0);
+                i--;
+            } else {
+                lineItems.add(new LineItem(Type.REMOVED, file1.get(i)));
+            }
+        }
+        if (!file2.isEmpty()) {
+            while (!file2.isEmpty()) {
+                lineItems.add(new LineItem(Type.ADDED, file2.get(0)));
+                file2.remove(0);
+            }
         }
 
         return lineItems;
     }
 
-    private static LineItem doCompare(ArrayList<String> item1, ArrayList<String> item2) {
-
-        return null;
-    }
 
     private static void printComplexList(List<LineItem> lines) {
         for (LineItem line : lines) {

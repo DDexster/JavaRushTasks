@@ -33,8 +33,8 @@ public class Solution {
 
 
     private static void addItem(String[] args, String fileName) throws IOException {
-        int idMax = getMaxId(fileName);
         ArrayList<String> items = getItems(fileName);
+        int idMax = getMaxId(items);
         String price = args[args.length - 2];
         String quantity = args[args.length - 1];
         String productName = getProductName(args);
@@ -44,9 +44,9 @@ public class Solution {
     }
 
     private static void writeItems(String fileName, List<String> items) throws IOException {
-        PrintWriter writer = new PrintWriter(fileName);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         for (String item : items) {
-            writer.println(item);
+            writer.write(item + "\n");
         }
         writer.close();
     }
@@ -62,23 +62,15 @@ public class Solution {
         return items;
     }
 
-    private static int getMaxId(String fileName) throws IOException {
+    private static int getMaxId(ArrayList<String> items) throws IOException {
         int maxId = 0;
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (!line.isEmpty()) {
-                if (line.length() > 8) {
-                    line = line.substring(0, 8);
-                    int id = getId(line);
-                    if (id > maxId) maxId = id;
-                } else {
-                    int id = getId(line);
-                    if (id > maxId) maxId = id;
-                }
+        for (String item : items) {
+            if (!item.isEmpty()) {
+                item = item.substring(0, 8);
+                int id = getId(item);
+                if (id > maxId) maxId = id;
             }
         }
-        reader.close();
         return maxId;
     }
 
