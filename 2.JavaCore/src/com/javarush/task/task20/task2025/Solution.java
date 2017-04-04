@@ -20,17 +20,19 @@ public class Solution {
                     pows[j] *= j;
                 }
             }
+
             if (isArmstrong(i, pows)) {
                 armstrongList.add(i);
             }
-
         }
+
         result = new long[armstrongList.size()];
         for (int j = 0; j < result.length; j++) {
             result[j] = armstrongList.get(j);
         }
         return result;
     }
+
 
     private static boolean isArmstrong(int num, long[] pows) {
         int arms = num;
